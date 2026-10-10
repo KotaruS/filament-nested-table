@@ -1,20 +1,20 @@
 <?php
 
-namespace Pjedesigns\FilamentNestedSetTable;
+namespace Kotaru\FilamentNestedTable;
 
 use Filament\Support\Assets\AlpineComponent;
 use Filament\Support\Assets\Asset;
 use Filament\Support\Assets\Css;
 use Filament\Support\Facades\FilamentAsset;
-use Pjedesigns\FilamentNestedSetTable\Services\TreeMover;
+use Kotaru\FilamentNestedTable\Services\TreeMover;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
-class FilamentNestedSetTableServiceProvider extends PackageServiceProvider
+class FilamentNestedTableServiceProvider extends PackageServiceProvider
 {
-    public static string $name = 'filament-nested-set-table';
+    public static string $name = 'filament-nested-table';
 
-    public static string $viewNamespace = 'filament-nested-set-table';
+    public static string $viewNamespace = 'filament-nested-table';
 
     public function configurePackage(Package $package): void
     {
@@ -34,7 +34,7 @@ class FilamentNestedSetTableServiceProvider extends PackageServiceProvider
     {
         FilamentAsset::register(
             assets: $this->getAssets(),
-            package: 'pjedesigns/filament-nested-set-table'
+            package: 'pjedesigns/filament-nested-table'
         );
     }
 
@@ -45,12 +45,12 @@ class FilamentNestedSetTableServiceProvider extends PackageServiceProvider
     {
         return [
             AlpineComponent::make(
-                'filament-nested-set-table',
-                __DIR__.'/../resources/dist/filament-nested-set-table.js'
+                'filament-nested-table',
+                __DIR__.'/../resources/dist/filament-nested-table.js'
             ),
             Css::make(
-                'filament-nested-set-table-styles',
-                __DIR__.'/../resources/dist/filament-nested-set-table.css'
+                'filament-nested-table-styles',
+                __DIR__.'/../resources/dist/filament-nested-table.css'
             ),
         ];
     }

@@ -10,10 +10,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Kalnoy\Nestedset\NodeTrait;
-use Pjedesigns\FilamentNestedSetTable\Actions\TreeDeleteAction;
-use Pjedesigns\FilamentNestedSetTable\Actions\TreeForceDeleteAction;
-use Pjedesigns\FilamentNestedSetTable\Actions\TreeRestoreAction;
-use Pjedesigns\FilamentNestedSetTable\Concerns\InteractsWithTree;
+use Kotaru\FilamentNestedTable\Actions\TreeDeleteAction;
+use Kotaru\FilamentNestedTable\Actions\TreeForceDeleteAction;
+use Kotaru\FilamentNestedTable\Actions\TreeRestoreAction;
+use Kotaru\FilamentNestedTable\Concerns\InteractsWithTree;
 
 beforeEach(function () {
     Schema::create('action_test_items', function (Blueprint $table) {

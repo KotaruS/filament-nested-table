@@ -1,9 +1,9 @@
-[# Filament Nested Set Table
-]()
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/pjedesigns/filament-nested-set-table.svg?style=flat-square)](https://packagist.org/packages/pjedesigns/filament-nested-set-table)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/pjedesigns/filament-nested-set-table/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/pjedesigns/filament-nested-set-table/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/pjedesigns/filament-nested-set-table/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/pjedesigns/filament-nested-set-table/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
-[![Total Downloads](https://img.shields.io/packagist/dt/pjedesigns/filament-nested-set-table.svg?style=flat-square)](https://packagist.org/packages/pjedesigns/filament-nested-set-table)
+# Filament Nested Set Table
+
+This is a fork building on the work of [Paul Egan](https://github.com/pjedesigns)'s [filament-nested-set-table](https://github.com/pjedesigns/filament-nested-set-table).
+
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/kotaru/filament-nested-table.svg?style=flat-square)](https://packagist.org/packages/kotaru/filament-nested-table)
+[![Total Downloads](https://img.shields.io/packagist/dt/kotaru/filament-nested-table.svg?style=flat-square)](https://packagist.org/packages/kotaru/filament-nested-table)
 
 A Filament table component for displaying and managing nested set data structures with drag-and-drop reordering support. Works with Filament v4/v5. Built for use with [kalnoy/nestedset](https://github.com/lazychaser/laravel-nestedset).
 
@@ -35,13 +35,13 @@ A Filament table component for displaying and managing nested set data structure
 Install the package via composer:
 
 ```bash
-composer require pjedesigns/filament-nested-set-table
+composer require kotaru/filament-nested-table
 ```
 
 Publish the config file (optional):
 
 ```bash
-php artisan vendor:publish --tag="filament-nested-set-table-config"
+php artisan vendor:publish --tag="filament-nested-table-config"
 ```
 
 ## Usage Options
@@ -73,7 +73,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Kalnoy\Nestedset\NodeTrait;
-use Pjedesigns\FilamentNestedSetTable\Concerns\InteractsWithTree;
+use Kotaru\FilamentNestedTable\Concerns\InteractsWithTree;
 
 class Category extends Model
 {
@@ -118,7 +118,7 @@ namespace App\Filament\Resources\CategoryResource\Pages;
 use App\Filament\Resources\CategoryResource;
 use Filament\Actions\Action;
 use Filament\Resources\Pages\ListRecords;
-use Pjedesigns\FilamentNestedSetTable\Concerns\HasTree;
+use Kotaru\FilamentNestedTable\Concerns\HasTree;
 
 class ListCategories extends ListRecords
 {
@@ -161,7 +161,7 @@ namespace App\Filament\Resources;
 
 use Filament\Resources\Resource;
 use Filament\Tables\Table;
-use Pjedesigns\FilamentNestedSetTable\Tables\Columns\TreeColumn;
+use Kotaru\FilamentNestedTable\Tables\Columns\TreeColumn;
 
 class CategoryResource extends Resource
 {
@@ -218,7 +218,7 @@ Create a page class that extends `OrderPage` and links it to your resource:
 namespace App\Filament\Resources\CategoryResource\Pages;
 
 use App\Filament\Resources\CategoryResource;
-use Pjedesigns\FilamentNestedSetTable\Pages\OrderPage;
+use Kotaru\FilamentNestedTable\Pages\OrderPage;
 
 class OrderCategories extends OrderPage
 {
@@ -306,7 +306,7 @@ The OrderPage repairs the tree's `_lft`/`_rgt` values in two places: the **Fix T
 
 By default, the repair runs inside `withoutEvents()`, so model events (and any observers — activity logging, cache invalidation, search indexing, etc.) are not fired for every node touched during the repair. You can control this in three ways:
 
-**1. Globally via config** — set `fix_tree_quietly` to `false` in `config/filament-nested-set-table.php` to fire model events as normal:
+**1. Globally via config** — set `fix_tree_quietly` to `false` in `config/filament-nested-table.php` to fire model events as normal:
 
 ```php
 'fix_tree_quietly' => false,
@@ -374,7 +374,7 @@ If no `reorder` method exists, the package falls back to checking `update` permi
 ## Configuration
 
 ```php
-// config/filament-nested-set-table.php
+// config/filament-nested-table.php
 
 return [
     // Default indentation per depth level (pixels)
@@ -463,7 +463,7 @@ class ListCategories extends ListRecords
 }
 ```
 
-This overrides the global config value (`filament-nested-set-table.max_depth`) for this specific page.
+This overrides the global config value (`filament-nested-table.max_depth`) for this specific page.
 
 ---
 
@@ -484,9 +484,9 @@ This package provides tree-aware action classes that display the descendant coun
 ### Basic Usage
 
 ```php
-use Pjedesigns\FilamentNestedSetTable\Actions\TreeDeleteAction;
-use Pjedesigns\FilamentNestedSetTable\Actions\TreeForceDeleteAction;
-use Pjedesigns\FilamentNestedSetTable\Actions\TreeRestoreAction;
+use Kotaru\FilamentNestedTable\Actions\TreeDeleteAction;
+use Kotaru\FilamentNestedTable\Actions\TreeForceDeleteAction;
+use Kotaru\FilamentNestedTable\Actions\TreeRestoreAction;
 
 public static function table(Table $table): Table
 {
@@ -512,7 +512,7 @@ If your application has custom delete logic (e.g., using service classes, custom
 namespace App\Filament\Actions;
 
 use Illuminate\Database\Eloquent\Model;
-use Pjedesigns\FilamentNestedSetTable\Actions\TreeDeleteAction as BaseTreeDeleteAction;
+use Kotaru\FilamentNestedTable\Actions\TreeDeleteAction as BaseTreeDeleteAction;
 
 class TreeDeleteAction extends BaseTreeDeleteAction
 {
@@ -562,7 +562,7 @@ $this->using(function (Model $record): Model {
 
 ### Translations
 
-The actions use the following translation keys from `filament-nested-set-table::actions`:
+The actions use the following translation keys from `filament-nested-table::actions`:
 
 ```php
 return [
@@ -580,7 +580,7 @@ return [
 Publish translations to customize:
 
 ```bash
-php artisan vendor:publish --tag="filament-nested-set-table-translations"
+php artisan vendor:publish --tag="filament-nested-table-translations"
 ```
 
 ---
@@ -590,7 +590,7 @@ php artisan vendor:publish --tag="filament-nested-set-table-translations"
 Add this trait to your model for additional customization:
 
 ```php
-use Pjedesigns\FilamentNestedSetTable\Concerns\InteractsWithTree;
+use Kotaru\FilamentNestedTable\Concerns\InteractsWithTree;
 
 class Category extends Model
 {
@@ -630,7 +630,7 @@ class Category extends Model
     // Max depth for this tree (default: from config)
     public function getMaxTreeDepth(): int
     {
-        return config('filament-nested-set-table.max_depth', 0);
+        return config('filament-nested-table.max_depth', 0);
     }
 }
 ```
@@ -696,7 +696,7 @@ Both the `OrderPage` and `HasTree` trait support a one-click alphabetical reorde
 ### OrderPage
 
 ```php
-use Pjedesigns\FilamentNestedSetTable\Pages\OrderPage;
+use Kotaru\FilamentNestedTable\Pages\OrderPage;
 
 class OrderCategories extends OrderPage
 {
@@ -719,7 +719,7 @@ class OrderCategories extends OrderPage
 ### HasTree (ListRecords)
 
 ```php
-use Pjedesigns\FilamentNestedSetTable\Concerns\HasTree;
+use Kotaru\FilamentNestedTable\Concerns\HasTree;
 
 class ListCategories extends ListRecords
 {
@@ -744,7 +744,7 @@ class ListCategories extends ListRecords
         return [
             // Add the alphabetical button as a header action
             Action::make('saveAlphabetically')
-                ->label(__('filament-nested-set-table::messages.save_alphabetically'))
+                ->label(__('filament-nested-table::messages.save_alphabetically'))
                 ->icon('heroicon-o-bars-arrow-down')
                 ->color('info')
                 ->requiresConfirmation()
@@ -821,7 +821,7 @@ Your OrderPage implementation is simple - just use `getParentRecord()` to access
 
 ```php
 // OrderNavigationItems.php
-use Pjedesigns\FilamentNestedSetTable\Pages\OrderPage;
+use Kotaru\FilamentNestedTable\Pages\OrderPage;
 
 class OrderNavigationItems extends OrderPage
 {
@@ -890,7 +890,7 @@ The package dispatches the following events:
 
 ```php
 // In EventServiceProvider or a listener
-use Pjedesigns\FilamentNestedSetTable\Events\NodeMoved;
+use Kotaru\FilamentNestedTable\Events\NodeMoved;
 
 Event::listen(NodeMoved::class, function (NodeMoved $event) {
     // Log the move
@@ -907,7 +907,7 @@ Event::listen(NodeMoved::class, function (NodeMoved $event) {
 The package includes English translations. Publish them to customize:
 
 ```bash
-php artisan vendor:publish --tag="filament-nested-set-table-translations"
+php artisan vendor:publish --tag="filament-nested-table-translations"
 ```
 
 Available translation keys:
@@ -961,6 +961,7 @@ Please review [our security policy](../../security/policy) on how to report secu
 
 ## Credits
 
+- [Martin Soukup](https://github.com/kotaru)
 - [Paul Egan](https://github.com/pjedesigns)
 - [All Contributors](../../contributors)
 

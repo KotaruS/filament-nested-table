@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Kalnoy\Nestedset\NodeTrait;
-use Pjedesigns\FilamentNestedSetTable\Concerns\InteractsWithTree;
+use Kotaru\FilamentNestedTable\Concerns\InteractsWithTree;
 
 beforeEach(function () {
     Schema::create('trait_test_items', function (Blueprint $table) {
@@ -109,7 +109,7 @@ it('default canBeDragged returns true', function () {
 });
 
 it('default getMaxTreeDepth reads from config', function () {
-    config(['filament-nested-set-table.max_depth' => 4]);
+    config(['filament-nested-table.max_depth' => 4]);
 
     $item = new DefaultTraitTestItem;
 
@@ -117,7 +117,7 @@ it('default getMaxTreeDepth reads from config', function () {
 });
 
 it('default getMaxTreeDepth returns null when config is unlimited', function () {
-    config(['filament-nested-set-table.max_depth' => null]);
+    config(['filament-nested-table.max_depth' => null]);
 
     $item = new DefaultTraitTestItem;
 
@@ -125,7 +125,7 @@ it('default getMaxTreeDepth returns null when config is unlimited', function () 
 });
 
 it('default getMaxTreeDepth returns 0 when nesting disabled', function () {
-    config(['filament-nested-set-table.max_depth' => 0]);
+    config(['filament-nested-table.max_depth' => 0]);
 
     $item = new DefaultTraitTestItem;
 

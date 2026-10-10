@@ -5,8 +5,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Kalnoy\Nestedset\NodeTrait;
-use Pjedesigns\FilamentNestedSetTable\Concerns\InteractsWithTree;
-use Pjedesigns\FilamentNestedSetTable\Tables\Columns\TreeColumn;
+use Kotaru\FilamentNestedTable\Concerns\InteractsWithTree;
+use Kotaru\FilamentNestedTable\Tables\Columns\TreeColumn;
 
 beforeEach(function () {
     Schema::create('tree_column_test_items', function (Blueprint $table) {
@@ -125,9 +125,9 @@ it('can set indent size via closure', function () {
 it('reads indent size from config file', function () {
     // The TreeColumn reads config in setUp, which is called during table rendering
     // We test that the config key exists and the column class can read config values
-    config(['filament-nested-set-table.indent_size' => 36]);
+    config(['filament-nested-table.indent_size' => 36]);
 
-    expect(config('filament-nested-set-table.indent_size'))->toBe(36);
+    expect(config('filament-nested-table.indent_size'))->toBe(36);
 });
 
 // ============================================
@@ -235,9 +235,9 @@ it('can set draggable via closure', function () {
 it('reads drag enabled from config file', function () {
     // The TreeColumn reads config in setUp, which is called during table rendering
     // We test that the config key exists and the column class can read config values
-    config(['filament-nested-set-table.drag_enabled' => false]);
+    config(['filament-nested-table.drag_enabled' => false]);
 
-    expect(config('filament-nested-set-table.drag_enabled'))->toBeFalse();
+    expect(config('filament-nested-table.drag_enabled'))->toBeFalse();
 });
 
 // ============================================

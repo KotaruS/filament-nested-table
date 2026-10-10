@@ -7,13 +7,13 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Schema;
 use Kalnoy\Nestedset\NodeTrait;
-use Pjedesigns\FilamentNestedSetTable\Concerns\InteractsWithTree;
-use Pjedesigns\FilamentNestedSetTable\Events\NodeMoved;
-use Pjedesigns\FilamentNestedSetTable\Events\NodeMoveFailed;
-use Pjedesigns\FilamentNestedSetTable\Events\TreeFixed;
-use Pjedesigns\FilamentNestedSetTable\Pages\OrderPage;
-use Pjedesigns\FilamentNestedSetTable\Services\MoveResult;
-use Pjedesigns\FilamentNestedSetTable\Services\TreeMover;
+use Kotaru\FilamentNestedTable\Concerns\InteractsWithTree;
+use Kotaru\FilamentNestedTable\Events\NodeMoved;
+use Kotaru\FilamentNestedTable\Events\NodeMoveFailed;
+use Kotaru\FilamentNestedTable\Events\TreeFixed;
+use Kotaru\FilamentNestedTable\Pages\OrderPage;
+use Kotaru\FilamentNestedTable\Services\MoveResult;
+use Kotaru\FilamentNestedTable\Services\TreeMover;
 
 beforeEach(function () {
     Schema::create('order_test_items', function (Blueprint $table) {
@@ -85,9 +85,9 @@ class TestableOrderPage
 
     public function __construct()
     {
-        $this->maxDepth = config('filament-nested-set-table.max_depth');
-        $this->indentSize = config('filament-nested-set-table.indent_size', 24);
-        $this->dragEnabled = config('filament-nested-set-table.drag_enabled', true);
+        $this->maxDepth = config('filament-nested-table.max_depth');
+        $this->indentSize = config('filament-nested-table.indent_size', 24);
+        $this->dragEnabled = config('filament-nested-table.drag_enabled', true);
     }
 
     public function getModel(): string
@@ -340,7 +340,7 @@ class TestableOrderPage
             return false;
         }
 
-        $undoDuration = config('filament-nested-set-table.undo_duration', 10);
+        $undoDuration = config('filament-nested-table.undo_duration', 10);
 
         return (now()->timestamp - $this->lastMove['timestamp']) <= $undoDuration;
     }
@@ -619,14 +619,14 @@ it('includes icon in node data when model provides it', function () {
 // ============================================
 
 it('returns correct indent size from config', function () {
-    config(['filament-nested-set-table.indent_size' => 32]);
+    config(['filament-nested-table.indent_size' => 32]);
 
     $page = new TestableOrderPage;
     expect($page->getIndentSize())->toBe(32);
 });
 
 it('returns drag enabled status from config', function () {
-    config(['filament-nested-set-table.drag_enabled' => false]);
+    config(['filament-nested-table.drag_enabled' => false]);
 
     $page = new TestableOrderPage;
     expect($page->isDragEnabled())->toBeFalse();
@@ -853,7 +853,7 @@ it('canUndoMove returns false after undo duration expires', function () {
     expect($page->canUndoMove())->toBeTrue();
 
     // Manually expire the undo
-    $undoDuration = config('filament-nested-set-table.undo_duration', 10);
+    $undoDuration = config('filament-nested-table.undo_duration', 10);
     $page->lastMove['timestamp'] = now()->timestamp - $undoDuration - 1;
 
     expect($page->canUndoMove())->toBeFalse();
@@ -961,7 +961,7 @@ it('shouldFixTreeQuietly returns true by default', function () {
 });
 
 it('shouldFixTreeQuietly reads the config value', function () {
-    config()->set('filament-nested-set-table.fix_tree_quietly', false);
+    config()->set('filament-nested-table.fix_tree_quietly', false);
 
     $page = new FixTreeOrderPage;
 
@@ -992,7 +992,7 @@ it('runFixTree repairs the tree without firing model events when quiet', functio
 });
 
 it('runFixTree fires model events when quiet mode is disabled', function () {
-    config()->set('filament-nested-set-table.fix_tree_quietly', false);
+    config()->set('filament-nested-table.fix_tree_quietly', false);
 
     $tree = createTestTree();
 

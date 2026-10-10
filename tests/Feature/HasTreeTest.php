@@ -6,12 +6,12 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Schema;
 use Kalnoy\Nestedset\NodeTrait;
-use Pjedesigns\FilamentNestedSetTable\Concerns\HasTree;
-use Pjedesigns\FilamentNestedSetTable\Concerns\InteractsWithTree;
-use Pjedesigns\FilamentNestedSetTable\Events\NodeMoved;
-use Pjedesigns\FilamentNestedSetTable\Events\NodeMoveFailed;
-use Pjedesigns\FilamentNestedSetTable\Services\MoveResult;
-use Pjedesigns\FilamentNestedSetTable\Tables\Columns\TreeColumn;
+use Kotaru\FilamentNestedTable\Concerns\HasTree;
+use Kotaru\FilamentNestedTable\Concerns\InteractsWithTree;
+use Kotaru\FilamentNestedTable\Events\NodeMoved;
+use Kotaru\FilamentNestedTable\Events\NodeMoveFailed;
+use Kotaru\FilamentNestedTable\Services\MoveResult;
+use Kotaru\FilamentNestedTable\Tables\Columns\TreeColumn;
 
 beforeEach(function () {
     Schema::create('has_tree_test_items', function (Blueprint $table) {
@@ -262,7 +262,7 @@ it('collapses descendants when collapsing a parent node', function () {
 it('saves expanded state to session when enabled', function () {
     $tree = createHasTreeTestData();
 
-    config(['filament-nested-set-table.remember_expanded_state' => true]);
+    config(['filament-nested-table.remember_expanded_state' => true]);
 
     $controller = new HasTreeTestController;
 
@@ -278,7 +278,7 @@ it('restores expanded state from session on mount', function () {
     $sessionKey = 'filament-tree-expanded.HasTreeTestItem';
     session()->put($sessionKey, [$tree['root1']->id, $tree['child1']->id]);
 
-    config(['filament-nested-set-table.remember_expanded_state' => true]);
+    config(['filament-nested-table.remember_expanded_state' => true]);
 
     $controller = new HasTreeTestController;
 
@@ -293,7 +293,7 @@ it('can clear expanded state', function () {
     $sessionKey = 'filament-tree-expanded.HasTreeTestItem';
     session()->put($sessionKey, [$tree['root1']->id]);
 
-    config(['filament-nested-set-table.remember_expanded_state' => true]);
+    config(['filament-nested-table.remember_expanded_state' => true]);
 
     $controller = new HasTreeTestController;
 
@@ -311,8 +311,8 @@ it('can reset tree state to default', function () {
     $sessionKey = 'filament-tree-expanded.HasTreeTestItem';
     session()->put($sessionKey, [$tree['root1']->id]);
 
-    config(['filament-nested-set-table.default_expanded' => false]);
-    config(['filament-nested-set-table.remember_expanded_state' => true]);
+    config(['filament-nested-table.default_expanded' => false]);
+    config(['filament-nested-table.remember_expanded_state' => true]);
 
     $controller = new HasTreeTestController;
 
@@ -325,8 +325,8 @@ it('can reset tree state to default', function () {
 it('expands all when default_expanded is true and no session state', function () {
     $tree = createHasTreeTestData();
 
-    config(['filament-nested-set-table.default_expanded' => true]);
-    config(['filament-nested-set-table.remember_expanded_state' => true]);
+    config(['filament-nested-table.default_expanded' => true]);
+    config(['filament-nested-table.remember_expanded_state' => true]);
 
     // Clear any session state
     session()->forget('filament-tree-expanded.HasTreeTestItem');
@@ -510,7 +510,7 @@ it('reports canUndoMove correctly', function () {
 // ============================================
 
 it('returns max depth from config', function () {
-    config(['filament-nested-set-table.max_depth' => 5]);
+    config(['filament-nested-table.max_depth' => 5]);
 
     createHasTreeTestData();
 
@@ -520,7 +520,7 @@ it('returns max depth from config', function () {
 });
 
 it('prevents move when max depth would be exceeded', function () {
-    config(['filament-nested-set-table.max_depth' => 2]);
+    config(['filament-nested-table.max_depth' => 2]);
 
     $tree = createHasTreeTestData();
 
@@ -536,7 +536,7 @@ it('prevents move when max depth would be exceeded', function () {
 });
 
 it('allows move when max depth is null (unlimited)', function () {
-    config(['filament-nested-set-table.max_depth' => null]);
+    config(['filament-nested-table.max_depth' => null]);
 
     $tree = createHasTreeTestData();
 
@@ -550,7 +550,7 @@ it('allows move when max depth is null (unlimited)', function () {
 });
 
 it('prevents any nesting when max depth is 0 (root only)', function () {
-    config(['filament-nested-set-table.max_depth' => 0]);
+    config(['filament-nested-table.max_depth' => 0]);
 
     $tree = createHasTreeTestData();
 
@@ -613,7 +613,7 @@ it('TreeColumn defaults expand toggle to true', function () {
 // ============================================
 
 it('reads remember expanded state from config', function () {
-    config(['filament-nested-set-table.remember_expanded_state' => true]);
+    config(['filament-nested-table.remember_expanded_state' => true]);
 
     createHasTreeTestData();
 
@@ -623,7 +623,7 @@ it('reads remember expanded state from config', function () {
 });
 
 it('does not remember state when config is false', function () {
-    config(['filament-nested-set-table.remember_expanded_state' => false]);
+    config(['filament-nested-table.remember_expanded_state' => false]);
 
     $tree = createHasTreeTestData();
 
@@ -705,7 +705,7 @@ it('canUndoMove expires after undo duration', function () {
     expect($controller->canUndoMove())->toBeTrue();
 
     // Manually set the timestamp to be older than undo_duration
-    $undoDuration = config('filament-nested-set-table.undo_duration', 10);
+    $undoDuration = config('filament-nested-table.undo_duration', 10);
     $controller->lastMove['timestamp'] = now()->timestamp - $undoDuration - 1;
 
     expect($controller->canUndoMove())->toBeFalse();
@@ -719,7 +719,7 @@ it('undoLastMove does nothing when undo has expired', function () {
     $controller->handleNodeMoved($tree['root2']->id, $tree['root1']->id, false, true);
 
     // Expire the undo
-    $undoDuration = config('filament-nested-set-table.undo_duration', 10);
+    $undoDuration = config('filament-nested-table.undo_duration', 10);
     $controller->lastMove['timestamp'] = now()->timestamp - $undoDuration - 1;
 
     $controller->undoLastMove();

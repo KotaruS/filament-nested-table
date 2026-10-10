@@ -5,11 +5,11 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Schema;
 use Kalnoy\Nestedset\NodeTrait;
-use Pjedesigns\FilamentNestedSetTable\Concerns\HasTree;
-use Pjedesigns\FilamentNestedSetTable\Concerns\InteractsWithTree;
-use Pjedesigns\FilamentNestedSetTable\Events\NodeMoved;
-use Pjedesigns\FilamentNestedSetTable\Services\MoveResult;
-use Pjedesigns\FilamentNestedSetTable\Services\TreeMover;
+use Kotaru\FilamentNestedTable\Concerns\HasTree;
+use Kotaru\FilamentNestedTable\Concerns\InteractsWithTree;
+use Kotaru\FilamentNestedTable\Events\NodeMoved;
+use Kotaru\FilamentNestedTable\Services\MoveResult;
+use Kotaru\FilamentNestedTable\Services\TreeMover;
 
 beforeEach(function () {
     // Create a scoped tree test table (like navigation items scoped by navigation_id)
@@ -265,7 +265,7 @@ it('reorders nodes within same scope', function () {
 it('session key includes model name for scoped trees', function () {
     $data = createScopedTestData();
 
-    config(['filament-nested-set-table.remember_expanded_state' => true]);
+    config(['filament-nested-table.remember_expanded_state' => true]);
 
     $controller = new ScopedTreeTestController(1);
     $controller->toggleNode($data['scope1']['root1']->id);
@@ -277,7 +277,7 @@ it('session key includes model name for scoped trees', function () {
 it('expanded nodes persist correctly for scoped trees', function () {
     $data = createScopedTestData();
 
-    config(['filament-nested-set-table.remember_expanded_state' => true]);
+    config(['filament-nested-table.remember_expanded_state' => true]);
 
     $controller = new ScopedTreeTestController(1);
 
@@ -387,7 +387,7 @@ it('returns tree icon as default', function () {
 });
 
 it('returns max tree depth from config', function () {
-    config(['filament-nested-set-table.max_depth' => 3]);
+    config(['filament-nested-table.max_depth' => 3]);
 
     $data = createScopedTestData();
 
@@ -460,7 +460,7 @@ it('TreeMover prevents circular reference', function () {
 
 it('max depth config is readable from scoped tree controller', function () {
     // Set max depth config
-    config(['filament-nested-set-table.max_depth' => 2]);
+    config(['filament-nested-table.max_depth' => 2]);
 
     $data = createScopedTestData();
 

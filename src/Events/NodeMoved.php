@@ -1,13 +1,13 @@
 <?php
 
-namespace Pjedesigns\FilamentNestedSetTable\Events;
+namespace Kotaru\FilamentNestedTable\Events;
 
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use Pjedesigns\FilamentNestedSetTable\Services\MoveResult;
+use Kotaru\FilamentNestedTable\Services\MoveResult;
 
 class NodeMoved implements ShouldBroadcast
 {
@@ -24,7 +24,7 @@ class NodeMoved implements ShouldBroadcast
 
     public function broadcastOn(): array
     {
-        if (! config('filament-nested-set-table.broadcast_enabled')) {
+        if (! config('filament-nested-table.broadcast_enabled')) {
             return [];
         }
 

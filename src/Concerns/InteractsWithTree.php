@@ -1,6 +1,6 @@
 <?php
 
-namespace Pjedesigns\FilamentNestedSetTable\Concerns;
+namespace Kotaru\FilamentNestedTable\Concerns;
 
 trait InteractsWithTree
 {
@@ -61,7 +61,7 @@ trait InteractsWithTree
      */
     public function getMaxTreeDepth(): ?int
     {
-        return config('filament-nested-set-table.max_depth');
+        return config('filament-nested-table.max_depth');
     }
 
     /**

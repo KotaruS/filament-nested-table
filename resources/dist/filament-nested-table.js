@@ -1108,7 +1108,7 @@ xt.prototype = {
 	drop: yt
 }, t(xt, { pluginName: "removeOnSpill" }), Q.mount(new ht()), Q.mount(xt, bt);
 //#endregion
-//#region resources/js/filament-nested-set-table.js
+//#region resources/js/filament-nested-table.js
 function St(e = {}) {
 	return {
 		nodeId: e.nodeId,
@@ -1316,4 +1316,4 @@ if (typeof window < "u") {
 //#endregion
 export { wt as default, St as treeNode, Ct as treeNodeSimple };
 
-//# sourceMappingURL=filament-nested-set-table.js.map
+//# sourceMappingURL=filament-nested-table.js.map

@@ -1,6 +1,6 @@
 <?php
 
-namespace Pjedesigns\FilamentNestedSetTable\Services;
+namespace Kotaru\FilamentNestedTable\Services;
 
 use Illuminate\Database\Eloquent\Model;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Pjedesigns\FilamentNestedSetTable\Events;
+namespace Kotaru\FilamentNestedTable\Events;
 
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;

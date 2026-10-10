@@ -4,9 +4,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Kalnoy\Nestedset\NodeTrait;
-use Pjedesigns\FilamentNestedSetTable\Concerns\InteractsWithTree;
-use Pjedesigns\FilamentNestedSetTable\Services\MoveResult;
-use Pjedesigns\FilamentNestedSetTable\Services\TreeMover;
+use Kotaru\FilamentNestedTable\Concerns\InteractsWithTree;
+use Kotaru\FilamentNestedTable\Services\MoveResult;
+use Kotaru\FilamentNestedTable\Services\TreeMover;
 
 beforeEach(function () {
     Schema::create('test_categories', function (Blueprint $table) {

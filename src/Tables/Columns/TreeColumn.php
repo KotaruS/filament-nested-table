@@ -1,13 +1,13 @@
 <?php
 
-namespace Pjedesigns\FilamentNestedSetTable\Tables\Columns;
+namespace Kotaru\FilamentNestedTable\Tables\Columns;
 
 use Closure;
 use Filament\Tables\Columns\TextColumn;
 
 class TreeColumn extends TextColumn
 {
-    protected string $view = 'filament-nested-set-table::tables.columns.tree-column';
+    protected string $view = 'filament-nested-table::tables.columns.tree-column';
 
     protected int|Closure $indentSize = 24;
 
@@ -21,8 +21,8 @@ class TreeColumn extends TextColumn
     {
         parent::setUp();
 
-        $this->indentSize(config('filament-nested-set-table.indent_size', 24));
-        $this->draggable(config('filament-nested-set-table.drag_enabled', true));
+        $this->indentSize(config('filament-nested-table.indent_size', 24));
+        $this->draggable(config('filament-nested-table.drag_enabled', true));
 
         // Enable HTML rendering for the custom view
         $this->html();

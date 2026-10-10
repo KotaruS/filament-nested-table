@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Kalnoy\Nestedset\NodeTrait;
-use Pjedesigns\FilamentNestedSetTable\Pages\OrderPage;
+use Kotaru\FilamentNestedTable\Pages\OrderPage;
 
 beforeEach(function () {
     Schema::create('repro_people', function (Blueprint $table) {
