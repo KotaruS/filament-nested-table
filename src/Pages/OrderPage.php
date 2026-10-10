@@ -1,6 +1,6 @@
 <?php
 
-namespace Pjedesigns\FilamentNestedSetTable\Pages;
+namespace Kotaru\FilamentNestedTable\Pages;
 
 use Filament\Actions\Action;
 use Filament\Notifications\Notification;
@@ -13,10 +13,10 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
-use Pjedesigns\FilamentNestedSetTable\Events\NodeMoved;
-use Pjedesigns\FilamentNestedSetTable\Events\NodeMoveFailed;
-use Pjedesigns\FilamentNestedSetTable\Events\TreeFixed;
-use Pjedesigns\FilamentNestedSetTable\Services\MoveResult;
+use Kotaru\FilamentNestedTable\Events\NodeMoved;
+use Kotaru\FilamentNestedTable\Events\NodeMoveFailed;
+use Kotaru\FilamentNestedTable\Events\TreeFixed;
+use Kotaru\FilamentNestedTable\Services\MoveResult;
 
 /**
  * Dedicated ordering page for tree structures.
@@ -40,7 +40,7 @@ abstract class OrderPage extends Page
 {
     use InteractsWithParentRecord;
 
-    protected string $view = 'filament-nested-set-table::pages.order-page';
+    protected string $view = 'filament-nested-table::pages.order-page';
 
     /**
      * Store for undo functionality.
@@ -53,7 +53,7 @@ abstract class OrderPage extends Page
      */
     public function getTitle(): string|Htmlable
     {
-        return static::$title ?? __('filament-nested-set-table::messages.order').' '.Str::headline(static::getResource()::getPluralModelLabel());
+        return static::$title ?? __('filament-nested-table::messages.order').' '.Str::headline(static::getResource()::getPluralModelLabel());
     }
 
     /**
@@ -73,7 +73,7 @@ abstract class OrderPage extends Page
      */
     public function getMaxDepth(): ?int
     {
-        return config('filament-nested-set-table.max_depth');
+        return config('filament-nested-table.max_depth');
     }
 
     /**
@@ -81,7 +81,7 @@ abstract class OrderPage extends Page
      */
     public function getIndentSize(): int
     {
-        return config('filament-nested-set-table.indent_size', 24);
+        return config('filament-nested-table.indent_size', 24);
     }
 
     /**
@@ -97,7 +97,7 @@ abstract class OrderPage extends Page
      */
     public function isDragEnabled(): bool
     {
-        return config('filament-nested-set-table.drag_enabled', true);
+        return config('filament-nested-table.drag_enabled', true);
     }
 
     /**
@@ -124,7 +124,7 @@ abstract class OrderPage extends Page
 
     public function shouldFixTreeQuietly(): bool
     {
-        return config('filament-nested-set-table.fix_tree_quietly', true);
+        return config('filament-nested-table.fix_tree_quietly', true);
     }
 
     protected function runFixTree(): void
@@ -265,7 +265,7 @@ abstract class OrderPage extends Page
         $targetNode = $targetNodeId ? $model::withDepth()->find($targetNodeId) : null;
 
         if (! $node) {
-            $this->notifyError(__('filament-nested-set-table::messages.node_not_found'));
+            $this->notifyError(__('filament-nested-table::messages.node_not_found'));
 
             return;
         }
@@ -278,7 +278,7 @@ abstract class OrderPage extends Page
                 attemptedParentId: $targetNodeId,
                 attemptedPosition: 0
             ));
-            $this->notifyError(__('filament-nested-set-table::messages.unauthorized'));
+            $this->notifyError(__('filament-nested-table::messages.unauthorized'));
 
             return;
         }
@@ -288,7 +288,7 @@ abstract class OrderPage extends Page
 
         // Prevent circular reference - can't make a node a child of its own descendant
         if ($makeChild && $targetNode && $node->isAncestorOf($targetNode)) {
-            $this->notifyError(__('filament-nested-set-table::messages.circular_reference'));
+            $this->notifyError(__('filament-nested-table::messages.circular_reference'));
 
             return;
         }
@@ -300,7 +300,7 @@ abstract class OrderPage extends Page
                 : true;
 
             if (! $canHaveChildren) {
-                $this->notifyError(__('filament-nested-set-table::messages.cannot_have_children'));
+                $this->notifyError(__('filament-nested-table::messages.cannot_have_children'));
 
                 return;
             }
@@ -317,7 +317,7 @@ abstract class OrderPage extends Page
             $resultingMaxDepth = $targetDepth + $nodeSubtreeDepth;
 
             if ($resultingMaxDepth > $maxDepth) {
-                $this->notifyError(__('filament-nested-set-table::messages.max_depth_exceeded', [
+                $this->notifyError(__('filament-nested-table::messages.max_depth_exceeded', [
                     'max' => $maxDepth,
                     'resulting' => $resultingMaxDepth,
                 ]));
@@ -334,7 +334,7 @@ abstract class OrderPage extends Page
                 attemptedParentId: $newParentId,
                 attemptedPosition: 0
             ));
-            $this->notifyError(__('filament-nested-set-table::messages.cross_scope'));
+            $this->notifyError(__('filament-nested-table::messages.cross_scope'));
 
             return;
         }
@@ -386,13 +386,13 @@ abstract class OrderPage extends Page
             event(new NodeMoved($node->fresh(), $result, $previousParentId, $previousPosition));
 
             // Send notification with Undo action
-            $undoDuration = config('filament-nested-set-table.undo_duration', 10);
+            $undoDuration = config('filament-nested-table.undo_duration', 10);
             Notification::make()
-                ->title(__('filament-nested-set-table::messages.move_success'))
+                ->title(__('filament-nested-table::messages.move_success'))
                 ->success()
                 ->actions([
                     Action::make('undo')
-                        ->label(__('filament-nested-set-table::messages.undo'))
+                        ->label(__('filament-nested-table::messages.undo'))
                         ->dispatch('undoMove')
                         ->close(),
                 ])
@@ -478,7 +478,7 @@ abstract class OrderPage extends Page
                 }
             }
 
-            $this->notifySuccess(__('filament-nested-set-table::messages.undo_success'));
+            $this->notifySuccess(__('filament-nested-table::messages.undo_success'));
             $this->dispatch('tree-updated');
         } catch (\Throwable $e) {
             $this->notifyError($e->getMessage());
@@ -497,7 +497,7 @@ abstract class OrderPage extends Page
             return false;
         }
 
-        $undoDuration = config('filament-nested-set-table.undo_duration', 10);
+        $undoDuration = config('filament-nested-table.undo_duration', 10);
 
         return (now()->timestamp - $this->lastMove['timestamp']) <= $undoDuration;
     }
@@ -514,7 +514,7 @@ abstract class OrderPage extends Page
 
             event(new TreeFixed($model, 0));
 
-            $this->notifySuccess(__('filament-nested-set-table::messages.tree_fixed'));
+            $this->notifySuccess(__('filament-nested-table::messages.tree_fixed'));
             $this->dispatch('tree-updated');
         } catch (\Throwable $e) {
             $this->notifyError($e->getMessage());
@@ -540,27 +540,27 @@ abstract class OrderPage extends Page
         return array_filter([
             $this->shouldShowAlphabeticalButton()
                 ? Action::make('saveAlphabetically')
-                    ->label(__('filament-nested-set-table::messages.save_alphabetically'))
+                    ->label(__('filament-nested-table::messages.save_alphabetically'))
                     ->icon('heroicon-o-bars-arrow-down')
                     ->color('info')
                     ->requiresConfirmation()
-                    ->modalHeading(__('filament-nested-set-table::messages.save_alphabetically'))
-                    ->modalDescription(__('filament-nested-set-table::messages.alphabetical_confirm'))
-                    ->modalSubmitActionLabel(__('filament-nested-set-table::messages.save_alphabetically'))
+                    ->modalHeading(__('filament-nested-table::messages.save_alphabetically'))
+                    ->modalDescription(__('filament-nested-table::messages.alphabetical_confirm'))
+                    ->modalSubmitActionLabel(__('filament-nested-table::messages.save_alphabetically'))
                     ->action(fn () => $this->saveAlphabetically())
                 : null,
 
             Action::make('fixTree')
-                ->label(__('filament-nested-set-table::messages.fix_tree'))
+                ->label(__('filament-nested-table::messages.fix_tree'))
                 ->icon('heroicon-o-wrench-screwdriver')
                 ->color('warning')
                 ->requiresConfirmation()
-                ->modalHeading(__('filament-nested-set-table::messages.fix_tree'))
-                ->modalDescription(__('filament-nested-set-table::messages.fix_tree_tooltip'))
+                ->modalHeading(__('filament-nested-table::messages.fix_tree'))
+                ->modalDescription(__('filament-nested-table::messages.fix_tree_tooltip'))
                 ->action(fn () => $this->fixTree()),
 
             Action::make('backToList')
-                ->label(__('filament-nested-set-table::messages.back_to_list', ['resource' => $resourceLabel]))
+                ->label(__('filament-nested-table::messages.back_to_list', ['resource' => $resourceLabel]))
                 ->icon('heroicon-o-arrow-left')
                 ->color('gray')
                 ->url($this->getBackUrl()),
@@ -633,7 +633,7 @@ abstract class OrderPage extends Page
             // Fix tree to ensure lft/rgt values are clean
             $this->runFixTree();
 
-            $this->notifySuccess(__('filament-nested-set-table::messages.alphabetical_success'));
+            $this->notifySuccess(__('filament-nested-table::messages.alphabetical_success'));
             $this->dispatch('tree-updated');
         } catch (\Throwable $e) {
             $this->notifyError($e->getMessage());
@@ -746,7 +746,7 @@ abstract class OrderPage extends Page
     protected function notifyError(string $message): void
     {
         Notification::make()
-            ->title(__('filament-nested-set-table::messages.move_failed'))
+            ->title(__('filament-nested-table::messages.move_failed'))
             ->body($message)
             ->danger()
             ->send();

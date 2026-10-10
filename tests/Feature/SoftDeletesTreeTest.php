@@ -5,9 +5,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Kalnoy\Nestedset\NodeTrait;
-use Pjedesigns\FilamentNestedSetTable\Concerns\HasTree;
-use Pjedesigns\FilamentNestedSetTable\Concerns\InteractsWithTree;
-use Pjedesigns\FilamentNestedSetTable\Services\MoveResult;
+use Kotaru\FilamentNestedTable\Concerns\HasTree;
+use Kotaru\FilamentNestedTable\Concerns\InteractsWithTree;
+use Kotaru\FilamentNestedTable\Services\MoveResult;
 
 beforeEach(function () {
     Schema::create('soft_delete_tree_items', function (Blueprint $table) {

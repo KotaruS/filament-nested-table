@@ -11,3 +11,4 @@ testbench.yaml
 vendor
 .php-cs-fixer.cache
 /.claude
+.ds_store

@@ -6,10 +6,10 @@ export default defineConfig({
         outDir: 'resources/dist',
         emptyOutDir: true,
         lib: {
-            entry: path.resolve(__dirname, 'resources/js/filament-nested-set-table.js'),
-            name: 'FilamentNestedSetTable',
+            entry: path.resolve(__dirname, 'resources/js/filament-nested-table.js'),
+            name: 'FilamentNestedTable',
             formats: ['es'],
-            fileName: () => 'filament-nested-set-table.js',
+            fileName: () => 'filament-nested-table.js',
         },
         rollupOptions: {
             external: [],

@@ -38,6 +38,18 @@
     color: rgb(156 163 175);
 }
 
+.tree-drag-icons {
+    display: flex;
+}
+.tree-drag-icons svg {
+    width: 1rem;
+    height: 1rem;
+    pointer-events: none;
+}
+.tree-drag-icons svg:first-of-type {
+    margin-right: -0.5rem ;
+}
+
 /* Expand/Collapse Toggle */
 .tree-expand-toggle {
     display: flex;

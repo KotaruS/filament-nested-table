@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Pjedesigns\FilamentNestedSetTable\Services\MoveResult;
+use Kotaru\FilamentNestedTable\Services\MoveResult;
 
 // ============================================
 // MoveResult Factory Method Tests

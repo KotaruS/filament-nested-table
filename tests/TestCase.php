@@ -1,6 +1,6 @@
 <?php
 
-namespace Pjedesigns\FilamentNestedSetTable\Tests;
+namespace Kotaru\FilamentNestedTable\Tests;
 
 use Filament\Actions\ActionsServiceProvider;
 use Filament\Facades\Filament;
@@ -18,7 +18,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Kalnoy\Nestedset\NestedSetServiceProvider;
 use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Pjedesigns\FilamentNestedSetTable\FilamentNestedSetTableServiceProvider;
+use Kotaru\FilamentNestedTable\FilamentNestedTableServiceProvider;
 
 class TestCase extends Orchestra
 {
@@ -48,7 +48,7 @@ class TestCase extends Orchestra
             WidgetsServiceProvider::class,
             FilamentServiceProvider::class,
             NestedSetServiceProvider::class,
-            FilamentNestedSetTableServiceProvider::class,
+            FilamentNestedTableServiceProvider::class,
             TestPanelProvider::class,
         ];
     }

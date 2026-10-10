@@ -7,11 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Kalnoy\Nestedset\NodeTrait;
-use Pjedesigns\FilamentNestedSetTable\Concerns\InteractsWithTree;
-use Pjedesigns\FilamentNestedSetTable\Events\NodeMoved;
-use Pjedesigns\FilamentNestedSetTable\Events\NodeMoveFailed;
-use Pjedesigns\FilamentNestedSetTable\Events\TreeFixed;
-use Pjedesigns\FilamentNestedSetTable\Services\MoveResult;
+use Kotaru\FilamentNestedTable\Concerns\InteractsWithTree;
+use Kotaru\FilamentNestedTable\Events\NodeMoved;
+use Kotaru\FilamentNestedTable\Events\NodeMoveFailed;
+use Kotaru\FilamentNestedTable\Events\TreeFixed;
+use Kotaru\FilamentNestedTable\Services\MoveResult;
 
 beforeEach(function () {
     Schema::create('event_test_items', function (Blueprint $table) {
@@ -72,7 +72,7 @@ it('NodeMoved event stores all constructor properties', function () {
 });
 
 it('NodeMoved broadcastOn returns empty array when broadcast disabled', function () {
-    config(['filament-nested-set-table.broadcast_enabled' => false]);
+    config(['filament-nested-table.broadcast_enabled' => false]);
 
     $node = EventTestItem::create(['title' => 'Test Node']);
     EventTestItem::fixTree();
@@ -85,7 +85,7 @@ it('NodeMoved broadcastOn returns empty array when broadcast disabled', function
 });
 
 it('NodeMoved broadcastOn returns channel when broadcast enabled', function () {
-    config(['filament-nested-set-table.broadcast_enabled' => true]);
+    config(['filament-nested-table.broadcast_enabled' => true]);
 
     $node = EventTestItem::create(['title' => 'Test Node']);
     EventTestItem::fixTree();

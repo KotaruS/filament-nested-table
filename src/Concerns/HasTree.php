@@ -1,6 +1,6 @@
 <?php
 
-namespace Pjedesigns\FilamentNestedSetTable\Concerns;
+namespace Kotaru\FilamentNestedTable\Concerns;
 
 use Filament\Notifications\Notification;
 use Filament\Tables\Table;
@@ -13,9 +13,9 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
-use Pjedesigns\FilamentNestedSetTable\Events\NodeMoved;
-use Pjedesigns\FilamentNestedSetTable\Events\NodeMoveFailed;
-use Pjedesigns\FilamentNestedSetTable\Services\MoveResult;
+use Kotaru\FilamentNestedTable\Events\NodeMoved;
+use Kotaru\FilamentNestedTable\Events\NodeMoveFailed;
+use Kotaru\FilamentNestedTable\Services\MoveResult;
 
 trait HasTree
 {
@@ -39,9 +39,9 @@ trait HasTree
 
     public function bootHasTree(): void
     {
-        static::$maxDepth = config('filament-nested-set-table.max_depth');
-        static::$rememberExpandedState = config('filament-nested-set-table.remember_expanded_state', true);
-        static::$defaultExpanded = config('filament-nested-set-table.default_expanded', false);
+        static::$maxDepth = config('filament-nested-table.max_depth');
+        static::$rememberExpandedState = config('filament-nested-table.remember_expanded_state', true);
+        static::$defaultExpanded = config('filament-nested-table.default_expanded', false);
 
         // Note: We don't load from session here anymore.
         // Session loading happens in mountHasTree() which only runs on initial page load.
@@ -464,7 +464,7 @@ trait HasTree
         $node = $model::withDepth()->find($nodeId);
 
         if (! $node) {
-            $this->notifyMoveFailed(__('filament-nested-set-table::messages.node_not_found'));
+            $this->notifyMoveFailed(__('filament-nested-table::messages.node_not_found'));
 
             return;
         }
@@ -472,7 +472,7 @@ trait HasTree
         // Authorization check
         if (! $this->authorizeMove($node)) {
             event(new NodeMoveFailed($node, 'Unauthorized', $targetNodeId, 0));
-            $this->notifyMoveFailed(__('filament-nested-set-table::messages.unauthorized'));
+            $this->notifyMoveFailed(__('filament-nested-table::messages.unauthorized'));
 
             return;
         }
@@ -481,7 +481,7 @@ trait HasTree
         $targetNode = $targetNodeId ? $model::withDepth()->find($targetNodeId) : null;
 
         if ($targetNodeId && ! $targetNode) {
-            $this->notifyMoveFailed(__('filament-nested-set-table::messages.parent_not_found'));
+            $this->notifyMoveFailed(__('filament-nested-table::messages.parent_not_found'));
 
             return;
         }
@@ -491,7 +491,7 @@ trait HasTree
 
         // Prevent circular reference - can't make a node a child of its own descendant
         if ($makeChild && $targetNode && $node->isAncestorOf($targetNode)) {
-            $this->notifyMoveFailed(__('filament-nested-set-table::messages.circular_reference'));
+            $this->notifyMoveFailed(__('filament-nested-table::messages.circular_reference'));
 
             return;
         }
@@ -509,7 +509,7 @@ trait HasTree
             $resultingMaxDepth = $targetDepth + $nodeSubtreeDepth;
 
             if ($resultingMaxDepth > $maxDepth) {
-                $this->notifyMoveFailed(__('filament-nested-set-table::messages.max_depth_exceeded', [
+                $this->notifyMoveFailed(__('filament-nested-table::messages.max_depth_exceeded', [
                     'max' => $maxDepth,
                     'resulting' => $resultingMaxDepth,
                 ]));
@@ -521,7 +521,7 @@ trait HasTree
         // Scope validation
         if (! $this->validateScopeMove($node, $newParentId)) {
             event(new NodeMoveFailed($node, 'Cross-scope move', $newParentId, 0));
-            $this->notifyMoveFailed(__('filament-nested-set-table::messages.cross_scope'));
+            $this->notifyMoveFailed(__('filament-nested-table::messages.cross_scope'));
 
             return;
         }
@@ -662,7 +662,7 @@ trait HasTree
             }
 
             Notification::make()
-                ->title(__('filament-nested-set-table::messages.undo_success'))
+                ->title(__('filament-nested-table::messages.undo_success'))
                 ->success()
                 ->send();
 
@@ -670,7 +670,7 @@ trait HasTree
             $this->js('window.dispatchEvent(new CustomEvent("tree-updated"))');
         } catch (\Throwable $e) {
             Notification::make()
-                ->title(__('filament-nested-set-table::messages.move_failed'))
+                ->title(__('filament-nested-table::messages.move_failed'))
                 ->body($e->getMessage())
                 ->danger()
                 ->send();
@@ -689,7 +689,7 @@ trait HasTree
             return false;
         }
 
-        $undoDuration = config('filament-nested-set-table.undo_duration', 10);
+        $undoDuration = config('filament-nested-table.undo_duration', 10);
 
         return (now()->timestamp - $this->lastMove['timestamp']) <= $undoDuration;
     }
@@ -771,10 +771,10 @@ trait HasTree
      */
     protected function notifyMoveSuccess(MoveResult $result): void
     {
-        $title = __('filament-nested-set-table::messages.move_success');
+        $title = __('filament-nested-table::messages.move_success');
 
         if ($result->wasAutoAdjusted) {
-            $title = __('filament-nested-set-table::messages.move_adjusted');
+            $title = __('filament-nested-table::messages.move_adjusted');
         }
 
         Notification::make()
@@ -851,7 +851,7 @@ trait HasTree
             $model::fixTree();
 
             Notification::make()
-                ->title(__('filament-nested-set-table::messages.alphabetical_success'))
+                ->title(__('filament-nested-table::messages.alphabetical_success'))
                 ->success()
                 ->send();
 
@@ -859,7 +859,7 @@ trait HasTree
             $this->js('window.dispatchEvent(new CustomEvent("tree-updated"))');
         } catch (\Throwable $e) {
             Notification::make()
-                ->title(__('filament-nested-set-table::messages.alphabetical_failed'))
+                ->title(__('filament-nested-table::messages.alphabetical_failed'))
                 ->body($e->getMessage())
                 ->danger()
                 ->send();
@@ -872,7 +872,7 @@ trait HasTree
     protected function notifyMoveFailed(string $message): void
     {
         Notification::make()
-            ->title(__('filament-nested-set-table::messages.move_failed'))
+            ->title(__('filament-nested-table::messages.move_failed'))
             ->body($message)
             ->danger()
             ->send();

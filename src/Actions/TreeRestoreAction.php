@@ -1,6 +1,6 @@
 <?php
 
-namespace Pjedesigns\FilamentNestedSetTable\Actions;
+namespace Kotaru\FilamentNestedTable\Actions;
 
 use Filament\Actions\RestoreAction;
 use Illuminate\Database\Eloquent\Model;
@@ -15,11 +15,11 @@ class TreeRestoreAction extends RestoreAction
             $descendantCount = $this->getTrashedDescendantCount($record);
 
             if ($descendantCount === 0) {
-                return __('filament-nested-set-table::actions.restore_confirm');
+                return __('filament-nested-table::actions.restore_confirm');
             }
 
             return trans_choice(
-                'filament-nested-set-table::actions.restore_confirm_with_children',
+                'filament-nested-table::actions.restore_confirm_with_children',
                 $descendantCount,
                 ['count' => $descendantCount]
             );

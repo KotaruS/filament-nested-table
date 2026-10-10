@@ -31,14 +31,14 @@
     >
         <x-filament::section class="order-tree-section">
             <x-slot name="heading">
-                {{ __('filament-nested-set-table::messages.tree_structure') }}
+                {{ __('filament-nested-table::messages.tree_structure') }}
             </x-slot>
 
             <x-slot name="description">
                 @if($this->getMaxDepth() === 1)
-                    {{ __('filament-nested-set-table::messages.tree_description_flat') }}
+                    {{ __('filament-nested-table::messages.tree_description_flat') }}
                 @else
-                    {{ __('filament-nested-set-table::messages.tree_description') }}
+                    {{ __('filament-nested-table::messages.tree_description') }}
                 @endif
             </x-slot>
 
@@ -50,9 +50,9 @@
                         color="gray"
                         size="sm"
                         labeled-from="sm"
-                        :tooltip="__('filament-nested-set-table::messages.expand_all')"
+                        :tooltip="__('filament-nested-table::messages.expand_all')"
                     >
-                        {{ __('filament-nested-set-table::messages.expand_all') }}
+                        {{ __('filament-nested-table::messages.expand_all') }}
                     </x-filament::button>
 
                     <x-filament::button
@@ -61,9 +61,9 @@
                         color="gray"
                         size="sm"
                         labeled-from="sm"
-                        :tooltip="__('filament-nested-set-table::messages.collapse_all')"
+                        :tooltip="__('filament-nested-table::messages.collapse_all')"
                     >
-                        {{ __('filament-nested-set-table::messages.collapse_all') }}
+                        {{ __('filament-nested-table::messages.collapse_all') }}
                     </x-filament::button>
                 </div>
             </x-slot>
@@ -78,7 +78,7 @@
                             class="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500"
                         />
                         <h3 class="mt-2 text-sm font-semibold text-gray-900 dark:text-white">
-                            {{ __('filament-nested-set-table::messages.no_items') }}
+                            {{ __('filament-nested-table::messages.no_items') }}
                         </h3>
                     </div>
                 </template>
@@ -112,7 +112,7 @@
                                 <template x-if="node.can_drag">
                                     <span
                                         class="order-tree-drag-handle flex h-6 w-6 shrink-0 cursor-grab items-center justify-center rounded text-gray-400 hover:bg-gray-100 hover:text-gray-600 dark:text-gray-500 dark:hover:bg-white/10 dark:hover:text-gray-400"
-                                        title="{{ __('filament-nested-set-table::messages.drag_to_reorder') }}"
+                                        title="{{ __('filament-nested-table::messages.drag_to_reorder') }}"
                                         draggable="true"
                                         x-on:dragstart="startDrag($event, node)"
                                         x-on:dragend="endDrag($event)"
@@ -138,7 +138,7 @@
                                         type="button"
                                         x-on:click.stop="toggleNode(node.id)"
                                         class="flex h-6 w-6 shrink-0 cursor-pointer items-center justify-center rounded text-gray-400 hover:bg-gray-100 hover:text-gray-600 dark:text-gray-500 dark:hover:bg-white/10 dark:hover:text-gray-400"
-                                        :title="expandedNodes.has(node.id) ? '{{ __('filament-nested-set-table::messages.collapse') }}' : '{{ __('filament-nested-set-table::messages.expand') }}'"
+                                        :title="expandedNodes.has(node.id) ? '{{ __('filament-nested-table::messages.collapse') }}' : '{{ __('filament-nested-table::messages.expand') }}'"
                                     >
                                         <span
                                             style="display: inline-block; transition: transform 150ms;"
